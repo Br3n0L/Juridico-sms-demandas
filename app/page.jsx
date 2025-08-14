@@ -37,7 +37,7 @@ export default function Page(){
     try{ const raw=localStorage.getItem('smsjur-demandas-v1'); return raw?JSON.parse(raw):[] }catch{ return [] }
   });
   const [responsaveis,setResponsaveis]=useState(()=>{
-    try{ const raw=localStorage.getItem('smsjur-responsaveis-v1'); return raw?JSON.parse(raw):['Patrícia Cadeira','Breno Leal','Equipe Licitações'] }catch{ return ['Patrícia Cadeira','Breno Leal','Equipe Licitações'] }
+    try{ const raw=localStorage.getItem('smsjur-responsaveis-v1'); return raw?JSON.parse(raw):['Patrícia Cadeira','Breno Leal','Bartolomeu Neto','Ingrid Paloma'] }catch{ return ['Patrícia Cadeira','Breno Leal','Equipe Licitações'] }
   });
   const [form,setForm]=useState({ titulo:'', origem:'', setor:'Assessoria Jurídica', descricao:'', prioridade:'media', prazo:'', responsavel:'' });
   const [novoResp,setNovoResp]=useState('');
