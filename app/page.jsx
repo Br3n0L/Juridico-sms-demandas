@@ -140,13 +140,37 @@ export default function Page(){
             </div>
             <div>
               <label>Responsável</label>
-              <div style={{display:'flex', gap:8}}>
+              <div style={{display:'flex', gap:8, alignItems:'center'}}>
                 <select value={form.responsavel} onChange={e=>setForm(f=>({...f,responsavel:e.target.value}))} style={{flex:1}}>
                   <option value="">—</option>
                   {responsaveis.map(r=><option key={r} value={r}>{r}</option>)}
                 </select>
                 <input type="text" placeholder="Novo responsável" value={novoResp} onChange={e=>setNovoResp(e.target.value)} />
-                <button className="button outline" onClick={()=>{ const n=novoResp.trim(); if(!n) return; setResponsaveis(prev=>[...new Set([...prev,n])]); setNovoResp(''); }}>Adicionar</button>
+                <button className="button outline" onClick={()=>{
+                  const n=novoResp.trim(); if(!n) return; setResponsaveis(prev=>[...new Set([...prev,n])]); setNovoResp('');
+                }}>Adicionar</button>
+              </div>
+
+              {/* Lista de responsáveis com opção de excluir */}
+              <div style={{marginTop:8, display:'flex', gap:6, flexWrap:'wrap', alignItems:'center'}}>
+                {responsaveis.map(r=>(
+                  <div key={r} style={{display:'flex', alignItems:'center', gap:6, background:'#f3f4f6', padding:'4px 8px', borderRadius:6}}>
+                    <span style={{fontSize:13}}>{r}</span>
+                    <button
+                      className="button outline"
+                      style={{padding:'4px 6px'}}
+                      onClick={()=>{
+                        if(!confirm(`Remover responsável "${r}"? Isso também desvinculará demandas atribuídas a ele.`)) return;
+                        setResponsaveis(prev=>prev.filter(x=>x!==r));
+                        setDemandas(prev=>prev.map(d=>d.responsavel===r?{...d,responsavel:''}:d));
+                        // se o formulário atual apontava para esse responsável, limpar
+                        setForm(f=> f.responsavel===r ? {...f,responsavel:''} : f);
+                      }}
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="row-1">
